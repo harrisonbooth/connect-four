@@ -1,5 +1,5 @@
 import React, { useMemo } from "react"
-import CellComponent from "./CellComponent"
+import CellComponent from "../CellComponent"
 import styled from "styled-components"
 
 const StyledBoard = styled.section`
