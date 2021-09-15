@@ -9,12 +9,10 @@ const StyledCell = styled.section`
 `
 
 export default function CellComponent({ cell }) {
-  const innerText = cell.player?.name || "Empty"
   const colour = cell.player?.colour || "white"
 
   return (
     <StyledCell colour={colour}>
-      {innerText}
     </StyledCell>
   )
 }

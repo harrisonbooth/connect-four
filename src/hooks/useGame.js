@@ -1,5 +1,3 @@
-import Game from '../models/Game'
-import Player from '../models/Player'
 import { useReducer } from 'react'
 
 function reducer(game, action) {
