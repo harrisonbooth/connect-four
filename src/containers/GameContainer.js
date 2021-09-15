@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import BoardComponent from '../components/BoardComponent'
+import PlayableBoardComponent from '../components/Boards/PlayableBoardComponent'
 import { useGame } from '../hooks/useGame'
 import Game from '../models/Game'
 import Player from '../models/Player'
@@ -17,7 +17,7 @@ export default function GameContainer() {
   if (!game) return null
 
   return (
-    <BoardComponent board={game.board} rows={game.rowCount} columns={game.columnCount} height={80} />
+    <PlayableBoardComponent board={game.board} rows={game.rowCount} columns={game.columnCount} height={80} />
   )
 }
 

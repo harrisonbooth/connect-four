@@ -2,16 +2,19 @@ import React from "react"
 import styled from "styled-components"
 
 const StyledCell = styled.section`
-  height: ${props => props.size}vh;
-  width: ${props => props.size}vh;
+  height: 100%;
+  width: 100%;
+  background-color: ${props => props.colour};
+  border-radius: 100%;
 `
 
-export default function CellComponent({ cell, size }) {
-  const innards = (cell.player) ? cell.player.name : "Empty"
+export default function CellComponent({ cell }) {
+  const innerText = cell.player?.name || "Empty"
+  const colour = cell.player?.colour || "white"
 
   return (
-    <StyledCell size={size}>
-      {innards}
+    <StyledCell colour={colour}>
+      {innerText}
     </StyledCell>
   )
 }
