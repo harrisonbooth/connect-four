@@ -20,25 +20,39 @@ class Game {
     const target = this.board
       .filter(cell => cell.id % this.columnCount === columnNumber && !cell.player)
       .sort((a, b) => b.id - a.id)[0]
+    if (!target) {
+      return false
+    }
     target.claim(this.currentPlayer)
+    return true
   }
 
   takeTurn(column) {
-    this.chooseColumn(column)
+    const success = this.chooseColumn(column)
+    if (!success) {
+      return {
+        win: false,
+        player: this.currentPlayer,
+        board: this.board,
+        success: false
+      }
+    }
     const winningCellIds = this.checkWinner()
     if (winningCellIds.length) {
       this.board.filter(cell => winningCellIds.includes(cell.id)).forEach(cell => cell.setWinning())
       return {
         win: true,
         player: this.currentPlayer,
-        board: this.board
+        board: this.board,
+        success: true
       }
     }
     this.cyclePlayer()
     return {
       win: false,
       player: this.currentPlayer,
-      board: this.board
+      board: this.board,
+      success: true
     }
   }
 
