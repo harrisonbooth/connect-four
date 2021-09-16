@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BoardComponent from '../components/Boards/BoardComponent'
 import { useGame } from '../hooks/useGame'
 import styled from 'styled-components'
@@ -20,9 +20,24 @@ const ControlsLayout = styled.footer`
 export default function GameContainer() {
   const [settingUp, setSettingUp] = useState(false)
   const {game, takeTurn, resetBoard, initGame} = useGame()
+  const [boardError, setBoardError] = useState(false)
+
+  useEffect(() => {
+    if (game.error === "INVALID_MOVE") {
+      setBoardError(true)
+    }
+  }, [game])
+
+  const handleErrorAnimationEnd = () => {
+    setBoardError(false)
+  }
 
   const handleCellClick = (cellId) => {
-    takeTurn(cellId % game.boardSize.columns)
+    try {
+      takeTurn(cellId % game.boardSize.columns)
+    } catch (error) {
+      alert(error)
+    }
   }
 
   const handleColumnClick = (column) => {
@@ -67,6 +82,8 @@ export default function GameContainer() {
           columns={game.boardSize.columns}
           maxHeight={80}
           playable={!game.isFinished}
+          boardError={boardError}
+          onErrorAnimationEnd={handleErrorAnimationEnd}
         />
         <ControlsLayout>
           <StyledButton fontSize="3rem" onClick={resetBoard}>

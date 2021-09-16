@@ -9,7 +9,10 @@ export function reducer(game, action) {
 
       const freeCell = findFreeCellFromColumn(game, action.column)
       if(!freeCell) {
-        throw new Error(`Invalid Move - ${action.column}`)
+        return {
+          ...game,
+          error: "INVALID_MOVE"
+        }
       }
 
       const currentPlayer = game.players[game.currentPlayer]
@@ -32,18 +35,23 @@ export function reducer(game, action) {
           ...game,
           board: winningBoard,
           isWon: true,
-          isFinished: true
+          isFinished: true,
+          error: null
         }
       }
 
       let nextPlayer = game.currentPlayer + 1
       nextPlayer = (nextPlayer >= game.players.length) ? 0 : nextPlayer
 
-      return {...game, board: newBoard, currentPlayer: nextPlayer }
+      return {...game, board: newBoard, currentPlayer: nextPlayer, error: null }
     case "RESET":
       return {
         ...game,
-        board: generateBoard(game.boardSize)
+        board: generateBoard(game.boardSize),
+        currentPlayer: 0,
+        isFinished: false,
+        isWon: false,
+        error: null
       }
     case "NEW":
       return {
@@ -52,10 +60,11 @@ export function reducer(game, action) {
         boardSize: action.settings.boardSize,
         currentPlayer: 0,
         isFinished: false,
-        isWon: false
+        isWon: false,
+        error: null
       }
     default:
-      return {...game}
+      return {...game, error: null}
   }
 }
 
@@ -68,7 +77,8 @@ export const defaultGame = {
   },
   currentPlayer: 0,
   isFinished: false,
-  isWon: false
+  isWon: false,
+  error: null
 }
 
 function findFreeCellFromColumn(game, column) {
@@ -149,8 +159,8 @@ export function useGame() {
     dispatch({ type: "TAKE_TURN", column })
   }
 
-  const initGame = (game) => {
-    dispatch({ type: "INIT", game })
+  const initGame = (settings) => {
+    dispatch({ type: "NEW", settings })
   }
 
   return {game, takeTurn, resetBoard, initGame}

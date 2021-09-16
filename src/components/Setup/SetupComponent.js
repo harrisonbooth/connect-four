@@ -39,11 +39,11 @@ export default function SetupComponent({ onSetupSubmit, onSetupCancel, previousP
   const [players, setPlayers] = useState(previousPlayers)
 
   const handleColumnsChange = (event) => {
-    setColumns(event.target.value)
+    setColumns(parseInt(event.target.value))
   }
 
   const handleRowsChange = (event) => {
-    setRows(event.target.value)
+    setRows(parseInt(event.target.value))
   }
 
   const handlePlayerChange= ({id, name, colour}) => {
@@ -75,14 +75,13 @@ export default function SetupComponent({ onSetupSubmit, onSetupCancel, previousP
     event.preventDefault()
     const gameData = {
       players,
-      boardSize: [columns, rows]
+      boardSize: {columns, rows}
     }
 
     onSetupSubmit(gameData)
   }
 
   const playerNodes = players.map(player => {
-    console.log(player)
     return (
     <PlayerSetupComponent player={player} onPlayerChange={handlePlayerChange} onPlayerDelete={handlePlayerDelete} />
   )})

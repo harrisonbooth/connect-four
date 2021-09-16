@@ -9,6 +9,7 @@ export default styled.button`
   cursor: pointer;
   text-align: center;
   color: #666;
+  justify-self: center;
 
   &:hover {
     color: #444;

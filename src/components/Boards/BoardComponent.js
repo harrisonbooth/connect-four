@@ -3,12 +3,30 @@ import CellComponent from "../Cells/CellComponent"
 import PlayableCellComponent from "../Cells/PlayableCellComponent"
 import ColumnControlComponent from "../ColumnControlComponent"
 import { calculateBestFit, determineFreeCell } from "./helpers"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
+
+const boardErrorShake = keyframes`
+  10%, 90% {
+    transform: translateX(-1px);
+  }
+
+  20%, 80% {
+    transform: translateX(2px);
+  }
+
+  30%, 50%, 70% {
+    transform: translateX(-4px);
+  }
+
+  40%, 60% {
+    transform: translateX(4px);
+  }
+`
 
 const StyledBoard =  styled.section`
   display: grid;
   grid-template-columns: repeat(${props => props.columns}, 1fr);
-  grid-template-rows: repteat(${props => props.rows}, 1fr);
+  grid-template-rows: repeat(${props => props.rows}, 1fr);
   height: ${props => props.height};
   width: ${props => props.width};
   align-items: center;
@@ -18,6 +36,8 @@ const StyledBoard =  styled.section`
   box-sizing: border-box;
   background-color: blue;
   border-radius: 1rem;
+  animation: ${props => (props.boardError) ? boardErrorShake : ""} 0.82s cubic-bezier(.36,.07,.19,.97) both infinite;
+  animation-play-state: ${props => (props.boardError) ? "playing" : "paused"}
 `
 
 const StyledColumnControls = styled.section`
@@ -38,7 +58,9 @@ export default function BoardComponent(
     playable,
     currentPlayer,
     handleCellClick,
-    handleColumnClick
+    handleColumnClick,
+    boardError,
+    onErrorAnimationEnd
   }
 ) {
   const [height, width, gap] = useMemo(() => calculateBestFit(maxHeight, rows, columns), [maxHeight, rows, columns])
@@ -59,6 +81,10 @@ export default function BoardComponent(
 
   const isCellHighlighted = (cellId) => {
     return cellId === hoveringCellId
+  }
+
+  const handleAnimationEnd = () => {
+    onErrorAnimationEnd()
   }
 
   const isColumnHighlighted = (column) => {
@@ -104,7 +130,7 @@ export default function BoardComponent(
   return (
     <div>
       {columnControlsNode}
-      <StyledBoard rows={rows} columns={columns} height={height} width={width} gap={gap}>
+      <StyledBoard boardError={boardError} onAnimationIteration={handleAnimationEnd} rows={rows} columns={columns} height={height} width={width} gap={gap}>
         {cellNodes}
       </StyledBoard>
     </div>
