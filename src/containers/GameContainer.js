@@ -21,7 +21,7 @@ const ControlsLayout = styled.footer`
 
 export default function GameContainer() {
   const [settingUp, setSettingUp] = useState(false)
-  const [game, takeTurn, resetBoard, initGame] = useGame(Game.newGame())
+  const {game, takeTurn, resetBoard, initGame} = useGame()
 
   const handleCellClick = (cellId) => {
     takeTurn(cellId % game.columnCount)

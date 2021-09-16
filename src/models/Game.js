@@ -58,11 +58,8 @@ class Game {
   }
 
   cyclePlayer() {
-    // console.log("changing player");
-    // console.log("from:", this.currentPlayer.colour)
     this.players.unshift(this.players.pop())
     this.currentPlayer = this.players[0]
-    // console.log("to:", this.currentPlayer.colour)
   }
 
   claimCell(targetId) {
