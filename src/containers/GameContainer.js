@@ -66,7 +66,7 @@ export default function GameContainer() {
           rows={game.boardSize.rows}
           columns={game.boardSize.columns}
           maxHeight={80}
-          playable
+          playable={!game.isFinished}
         />
         <ControlsLayout>
           <StyledButton fontSize="3rem" onClick={resetBoard}>

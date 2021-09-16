@@ -94,10 +94,6 @@ function makeBoardMatrix(board, columns) {
   return boardMatrix
 }
 
-export function f () {
-  reducer(defaultGame, {type: "TAKE_TURN", column: 0})
-}
-
 function checkWinner(board, boardSize) {
   const boardMatrix = makeBoardMatrix(board, boardSize.columns)
   // Vertical
