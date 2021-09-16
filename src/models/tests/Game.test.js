@@ -6,8 +6,7 @@ describe('Game', () => {
   let game
   let players
   beforeEach(() => {
-    players = [new Player(0, "Harrison", "red"), new Player(1, "Scott", "yellow")]
-    game = Game.newGame(players)
+    game = Game.newGame()
   })
 
   test('New game gives standard board', () => {
@@ -17,6 +16,7 @@ describe('Game', () => {
   test('Choose column places cells correctly', () => {
     game.chooseColumn(0)
     game.chooseColumn(0)
+    expect(game.board[21].player).toBe(null)
     expect(game.board[28].player.id).toBe(0)
     expect(game.board[35].player.id).toBe(0)
   })

@@ -6,6 +6,7 @@ class Cell {
   }
 
   claim(player) {
+    console.log("cell", this.id, "claimed by", player.colour)
     this.player = player
   }
 

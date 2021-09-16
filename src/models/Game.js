@@ -1,4 +1,5 @@
 import Cell from "./Cell"
+import Player from "./Player"
 
 class Game {
   constructor(players, boardSize = [7, 6], board = [], currentPlayer = players[0]) {
@@ -57,8 +58,11 @@ class Game {
   }
 
   cyclePlayer() {
+    // console.log("changing player");
+    // console.log("from:", this.currentPlayer.colour)
     this.players.unshift(this.players.pop())
     this.currentPlayer = this.players[0]
+    // console.log("to:", this.currentPlayer.colour)
   }
 
   claimCell(targetId) {
@@ -126,7 +130,11 @@ class Game {
     return new Game(this.players, this.boardSize, this.board, this.currentPlayer)
   }
 
-  static newGame(players) {
+  static newGame() {
+    const players = [
+      new Player(0, "Player One", "#FF0000"),
+      new Player(1 ,"Player Two", "#FFFF00")
+    ]
     const board = []
     for (let i = 0; i < 42; i++) {
       const cell = new Cell(i);
