@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import BoardComponent from '../components/Boards/BoardComponent'
 import { useGame } from '../hooks/useGame'
-import Game from '../models/Game'
-import Player from '../models/Player'
 import styled from 'styled-components'
 import SetupComponent from '../components/Setup/SetupComponent'
 import StyledButton from '../components/StyledComponents/StyledButton'
@@ -24,7 +22,7 @@ export default function GameContainer() {
   const {game, takeTurn, resetBoard, initGame} = useGame()
 
   const handleCellClick = (cellId) => {
-    takeTurn(cellId % game.columnCount)
+    takeTurn(cellId % game.boardSize.columns)
   }
 
   const handleColumnClick = (column) => {
@@ -35,8 +33,8 @@ export default function GameContainer() {
     setSettingUp(true)
   }
 
-  const handleSetupSubmit = (gameData) => {
-    initGame(gameData)
+  const handleSetupSubmit = (settings) => {
+    initGame(settings)
     setSettingUp(false)
   }
 
@@ -44,12 +42,11 @@ export default function GameContainer() {
     setSettingUp(false)
   }
 
-  const playerObjects = game.players.map(player => ({...player}))
   const setupForm = (settingUp) ? (
     <SetupComponent
-      previousPlayers={playerObjects}
-      boardColumns={game.columnCount}
-      boardRows={game.rowCount}
+      previousPlayers={game.players}
+      boardColumns={game.boardSize.columns}
+      boardRows={game.boardSize.rows}
       onSetupSubmit={handleSetupSubmit}
       onSetupCancel={handleSetupCancel}
     />
@@ -64,10 +61,10 @@ export default function GameContainer() {
         <BoardComponent
           handleCellClick={handleCellClick}
           handleColumnClick={handleColumnClick}
-          currentPlayer={game.currentPlayer}
+          currentPlayer={game.players[game.currentPlayer]}
           board={[...game.board]}
-          rows={game.rowCount}
-          columns={game.columnCount}
+          rows={game.boardSize.rows}
+          columns={game.boardSize.columns}
           maxHeight={80}
           playable
         />

@@ -6,7 +6,7 @@ export const calculateBestFit = (maxHeight, rows, columns) => {
 
 export const determineFreeCell = (board, column, columns) => {
   const target = board
-  .filter(cell => cell.id % columns === column && !cell.player)
+  .filter(cell => cell.id % columns === column && cell.playerId === null)
   .sort((a, b) => b.id - a.id)[0]
   return target?.id
 }

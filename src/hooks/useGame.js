@@ -41,15 +41,19 @@ export function reducer(game, action) {
 
       return {...game, board: newBoard, currentPlayer: nextPlayer }
     case "RESET":
-      game.cleanBoard()
-      return game.clone()
-    case "INIT":
-      break;
-      // const gameData = action.game
-      // // const players = gameData.players.map(({id, name, colour}) => new Player(id, name, colour))
-      // // const initGame = new Game(players, gameData.boardSize)
-      // initGame.cleanBoard()
-      // return initGame.clone()
+      return {
+        ...game,
+        board: generateBoard(game.boardSize)
+      }
+    case "NEW":
+      return {
+        players: action.settings.players,
+        board: generateBoard(action.settings.boardSize),
+        boardSize: action.settings.boardSize,
+        currentPlayer: 0,
+        isFinished: false,
+        isWon: false
+      }
     default:
       return {...game}
   }
@@ -71,6 +75,10 @@ function findFreeCellFromColumn(game, column) {
   return game.board
     .filter(cell => cell.id % game.boardSize.columns === column && cell.playerId === null)
     .sort((a, b) => b.id - a.id)[0];
+}
+
+function generateBoard({columns, rows}) {
+  return [...Array(columns * rows)].map((_, i) => ({id: i, playerId: null, colour: "#FFFFFF", isWinning: false}))
 }
 
 function checkLine(a, b, c, d) {
@@ -134,7 +142,7 @@ function checkWinner(board, boardSize) {
   return []
 }
 
-export function useGame(initialGame) {
+export function useGame() {
   const [game, dispatch] = useReducer(reducer, defaultGame)
 
   const resetBoard = () => {
