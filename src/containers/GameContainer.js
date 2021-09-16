@@ -57,6 +57,8 @@ export default function GameContainer() {
     setSettingUp(false)
   }
 
+  const boardMessage = (game.isWon) ? `${game.players[game.currentPlayer].name} has won!` : null
+
   const setupForm = (settingUp) ? (
     <SetupComponent
       previousPlayers={game.players}
@@ -84,6 +86,7 @@ export default function GameContainer() {
           playable={!game.isFinished}
           boardError={boardError}
           onErrorAnimationEnd={handleErrorAnimationEnd}
+          message={boardMessage}
         />
         <ControlsLayout>
           <StyledButton fontSize="3rem" onClick={resetBoard}>

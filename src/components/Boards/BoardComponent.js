@@ -4,6 +4,7 @@ import PlayableCellComponent from "../Cells/PlayableCellComponent"
 import ColumnControlComponent from "../ColumnControlComponent"
 import { calculateBestFit, determineFreeCell } from "./helpers"
 import styled, { keyframes } from "styled-components"
+import StyledHeading from "../StyledComponents/StyledHeading"
 
 const boardErrorShake = keyframes`
   10%, 90% {
@@ -60,7 +61,8 @@ export default function BoardComponent(
     handleCellClick,
     handleColumnClick,
     boardError,
-    onErrorAnimationEnd
+    onErrorAnimationEnd,
+    message
   }
 ) {
   const [height, width, gap] = useMemo(() => calculateBestFit(maxHeight, rows, columns), [maxHeight, rows, columns])
@@ -105,8 +107,8 @@ export default function BoardComponent(
       />
     ))
 
-    const columnControlsNode = (!playable) ?
-      null :
+    const boardHeading = (!playable) ?
+      (<StyledHeading>{message}</StyledHeading>) :
       (
         <StyledColumnControls columns={columns}>
           {columnControls}
@@ -129,7 +131,7 @@ export default function BoardComponent(
 
   return (
     <div>
-      {columnControlsNode}
+      {boardHeading}
       <StyledBoard boardError={boardError} onAnimationIteration={handleAnimationEnd} rows={rows} columns={columns} height={height} width={width} gap={gap}>
         {cellNodes}
       </StyledBoard>
