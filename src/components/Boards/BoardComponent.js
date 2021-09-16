@@ -65,7 +65,7 @@ export default function BoardComponent(
     message
   }
 ) {
-  const [height, width, gap] = useMemo(() => calculateBestFit(maxHeight, rows, columns), [maxHeight, rows, columns])
+  const [height, width, gap, columnFont] = useMemo(() => calculateBestFit(maxHeight, rows, columns), [maxHeight, rows, columns])
   const [hoveringColumn, setHoveringColumn] = useState(null)
   const hoveringCellId = useMemo(() => determineFreeCell(board, hoveringColumn, columns), [board, hoveringColumn, columns])
 
@@ -104,6 +104,7 @@ export default function BoardComponent(
         isHighlighted={isColumnHighlighted(index)}
         currentPlayer={currentPlayer}
         onColumnClick={handleColumnClick}
+        columnFont={columnFont}
       />
     ))
 

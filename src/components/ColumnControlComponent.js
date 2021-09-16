@@ -4,12 +4,12 @@ import styled from "styled-components"
 const StyledColumnControl = styled.div`
   color: ${props => (props.isHighlighted) ? props.playerColour : "#666"};
   font-weight: bold;
-  font-size: 3rem;
+  font-size: ${props => props.columnFont};
   cursor: pointer;
   text-align: center;
 `
 
-export default function ColumnControlComponent({ number, onColumnMouseEnter, onColumnMouseLeave, isHighlighted, currentPlayer, onColumnClick }) {
+export default function ColumnControlComponent({ number, onColumnMouseEnter, onColumnMouseLeave, columnFont, isHighlighted, currentPlayer, onColumnClick }) {
   const handleMouseEnter = () => {
     onColumnMouseEnter(number)
   }
@@ -29,6 +29,7 @@ export default function ColumnControlComponent({ number, onColumnMouseEnter, onC
       isHighlighted={isHighlighted}
       playerColour={currentPlayer.colour}
       onClick={handleClick}
+      columnFont={columnFont}
     >{number + 1}</StyledColumnControl>
   )
 }
