@@ -7,9 +7,17 @@ import StyledButton from '../components/StyledComponents/StyledButton'
 import StyledHeading from '../components/StyledComponents/StyledHeading'
 
 const GameLayout = styled.main`
+  position: relative;
+  z-index: 10000;
   display: grid;
-  grid-template-rows: 1fr auto 1fr;
+  grid-template-rows: 1fr auto;
   justify-items: center;
+`
+
+const GameHeading = styled(StyledHeading)`
+  font-size: 4rem;
+  color: #999;
+  margin: 0;
 `
 
 const ControlsLayout = styled.footer`
@@ -72,8 +80,8 @@ export default function GameContainer() {
   return (
     <>
       {setupForm}
+      <GameHeading>Connect Four</GameHeading>
       <GameLayout>
-        <StyledHeading>Connect Four</StyledHeading>
         {/* Add player legend */}
         <BoardComponent
           handleCellClick={handleCellClick}
