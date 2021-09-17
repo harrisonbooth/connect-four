@@ -7,8 +7,6 @@ import StyledButton from '../components/StyledComponents/StyledButton'
 import StyledHeading from '../components/StyledComponents/StyledHeading'
 
 const GameLayout = styled.main`
-  position: relative;
-  z-index: 10000;
   display: grid;
   grid-template-rows: 1fr auto;
   justify-items: center;
